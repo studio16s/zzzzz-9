@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#100c16">
+<title>JAORICHE STUDIO16</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--bg:#100c16;--bg2:#19131f;--card:#211829;--card2:#2a2032;
+--text:#f5eaf5;--muted:#b8a8bd;--line:#44334e;
+--accent:#e7a9ce;--accent2:#b982b8;--danger:#e58a9b;
+--button:#e7a9ce;--button2:#b982b8;--button-text:#281a27;
+--star:#e7a9ce;--avatar-bg:#e7a9ce;--avatar-font:#281a27;
+--bg-gradient:linear-gradient(135deg,#100c16,#19131f);
+--card-gradient:linear-gradient(135deg,#211829,#2a2032);
+--button-gradient:linear-gradient(135deg,#e7a9ce,#b982b8);
+--font-main:'Prompt';--font-detail:'Cormorant Garamond';
+--shadow:0 12px 35px rgba(0,0,0,.24);--radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+margin:0;min-height:100vh;background:var(--bg-gradient);color:var(--text);
+font-family:var(--font-main),sans-serif;font-size:14px;
+transition:background .25s,color .25s
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.background-layer{
+position:fixed;inset:0;z-index:-2;background-image:var(--bg-image,none);
+background-size:cover;background-position:center;filter:blur(var(--bg-blur,0px));
+opacity:var(--bg-opacity,.35);pointer-events:none
+}
+body::after{
+content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+background:rgba(10,7,14,.25)
+}
+.app-shell{width:min(100%,900px);min-height:100vh;margin:auto;padding:0 18px 110px;position:relative}
+.store-header{position:relative;padding-top:18px}
+.store-cover{
+min-height:190px;display:flex;align-items:flex-end;padding:24px;
+border:1px solid var(--line);border-radius:0 0 25px 25px;
+background:linear-gradient(110deg,rgba(15,10,20,.88),rgba(35,22,42,.55)),var(--cover-image,linear-gradient(135deg,#24182d,#49304c));
+background-position:center;background-size:cover;box-shadow:var(--shadow);overflow:hidden
+}
+.store-profile{display:flex;align-items:center;gap:16px;min-width:0}
+.store-avatar{width:82px;height:82px;flex-shrink:0;object-fit:cover;border-radius:50%;border:3px solid var(--accent);background:var(--card)}
+.store-heading{min-width:0}
+.eyebrow{color:var(--accent);font-size:10px;font-weight:600;letter-spacing:2px}
+.store-heading h1{margin:4px 0;color:#fff;font-family:var(--font-detail),serif;font-size:clamp(25px,5vw,39px);letter-spacing:1px;line-height:1.1}
+.store-heading p{margin:5px 0 0;color:#eadce9;font-size:12px}
+.header-actions{position:absolute;top:30px;right:13px;display:flex;gap:8px;z-index:3}
+.round-action{
+width:39px;height:39px;border-radius:50%;border:1px solid var(--line);
+background:var(--card-gradient);color:var(--text);display:grid;place-items:center;
+font-size:17px;position:relative;box-shadow:var(--shadow)
+}
+.round-action b{position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;padding:0 4px;border-radius:20px;display:grid;place-items:center;background:var(--button-gradient);color:var(--button-text);font-size:10px}
+.main-content{padding-top:28px}
+.page{display:none;animation:fadeIn .25s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.section-heading h2{margin:3px 0 0;font-family:var(--font-detail),serif;font-size:34px;line-height:1.1;font-weight:700}
+.small-counter{color:var(--muted);font-size:10px;letter-spacing:1px;white-space:nowrap}
+.shop-tools{display:flex;gap:9px;margin-bottom:12px}
+input,textarea,select{
+width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:12px;
+outline:none;background:var(--card-gradient);color:var(--text);transition:border .2s,background .2s
+}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:.75}
+.shop-tools input{flex:1;min-width:0}
+.shop-tools select{width:42%;max-width:190px}
+.tag-filter{display:flex;gap:7px;overflow-x:auto;padding:2px 0 14px;scrollbar-width:none}
+.tag-filter button{flex-shrink:0;border:1px solid var(--line);background:var(--card-gradient);color:var(--muted);border-radius:30px;padding:7px 13px;font-size:11px}
+.tag-filter button.active{background:var(--button-gradient);color:var(--button-text);border-color:var(--button)}
+.product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.product-card{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:var(--card-gradient);box-shadow:0 7px 20px rgba(0,0,0,.12)}
+.product-image-wrap{position:relative;aspect-ratio:1/1;background:var(--bg2);overflow:hidden;cursor:pointer}
+.product-image{width:100%;height:100%;object-fit:cover;display:block}
+.product-placeholder{height:100%;display:grid;place-items:center;color:var(--muted);font-family:var(--font-detail),serif;font-size:22px}
+.product-badge{position:absolute;left:9px;top:9px;padding:5px 9px;border-radius:20px;background:var(--button-gradient);color:var(--button-text);font-size:9px;font-weight:700;letter-spacing:.6px}
+.drive-button{position:absolute;right:9px;top:9px;width:31px;height:31px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(20,12,24,.8);color:white;text-decoration:none;font-size:13px;z-index:2}
+.product-info{padding:12px}
+.product-info h3{margin:0 0 5px;font-size:13px;font-weight:500;overflow-wrap:anywhere}
+.product-description{min-height:30px;margin:0 0 8px;color:var(--muted);font-size:10px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.product-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.product-tags span{padding:3px 7px;border:1px solid var(--line);border-radius:20px;color:var(--muted);font-size:9px}
+.product-buy-row{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.product-price{color:var(--accent);font-size:14px;font-weight:600}
+.add-cart-button{border:0;border-radius:30px;padding:8px 11px;background:var(--button-gradient);color:var(--button-text);font-size:10px;font-weight:600}
+.primary-button,.secondary-button{border:0;border-radius:12px;padding:12px 16px;background:var(--button-gradient);color:var(--button-text);font-size:11px;font-weight:700;letter-spacing:.7px;transition:transform .15s,opacity .15s}
+.primary-button:active,.secondary-button:active{transform:scale(.98)}
+.secondary-button{border:1px solid var(--line);background:var(--card-gradient);color:var(--text)}
+.full-button{width:100%;margin-top:12px}
+.text-button{border:0;background:transparent;color:var(--accent);font-size:10px;font-weight:600}
+.empty-state{grid-column:1/-1;padding:35px 15px;border:1px dashed var(--line);border-radius:var(--radius);text-align:center;color:var(--muted);font-size:12px}
+.cart-list{display:grid;gap:10px}
+.cart-item{display:flex;align-items:center;gap:12px;padding:11px;border:1px solid var(--line);border-radius:15px;background:var(--card-gradient)}
+.cart-item img{width:65px;height:65px;flex-shrink:0;border-radius:10px;object-fit:cover;background:var(--bg2)}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-info strong{display:block;font-size:12px;overflow-wrap:anywhere}
+.cart-item-info small{color:var(--accent);font-size:11px}
+.quantity-control{display:flex;align-items:center;gap:8px;margin-top:7px}
+.quantity-control button{width:25px;height:25px;border:1px solid var(--line);border-radius:50%;background:var(--card2);color:var(--text)}
+.remove-item{border:0;background:transparent;color:var(--danger);font-size:17px}
+.summary-card,.settings-card,.receipt-editor{margin-top:17px;padding:17px;border:1px solid var(--line);border-radius:var(--radius);background:var(--card-gradient)}
+.summary-line{display:flex;justify-content:space-between;gap:10px;padding:7px 0;color:var(--muted);font-size:12px}
+.summary-line strong{color:var(--text)}
+.total-line{margin-top:5px;padding-top:13px;border-top:1px dashed var(--line);color:var(--text);font-size:14px}
+.total-line strong{color:var(--accent);font-size:19px}
+.receipt-editor label,.admin-form label,.login-card label{display:block;margin-bottom:12px;color:var(--muted);font-size:11px}
+.receipt-paper{width:100%;max-width:440px;margin:20px auto;padding:25px 20px;border:1px solid var(--line);border-radius:5px;background:var(--card-gradient);color:var(--text);box-shadow:var(--shadow)}
+.receipt-brand{text-align:center;padding:5px 0 15px}
+.receipt-brand-name{font-family:var(--font-detail),serif;font-size:27px;font-weight:700;letter-spacing:1px}
+.receipt-caption,.receipt-footer{color:var(--muted);font-size:9px;letter-spacing:1.4px}
+.receipt-divider{border-top:1px dashed var(--line);margin:13px 0}
+.receipt-meta{display:grid;gap:7px;font-size:10px}
+.receipt-meta div{display:flex;justify-content:space-between;gap:10px}
+.receipt-meta span{color:var(--muted)}
+.receipt-meta strong{text-align:right;overflow-wrap:anywhere}
+.receipt-item-row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:11px}
+.receipt-item-row span:first-child{overflow-wrap:anywhere}
+.receipt-total-row{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px}
+.receipt-total-row strong{color:var(--accent);font-size:20px}
+.receipt-qr{display:none;text-align:center;margin-top:20px}
+.receipt-qr img{display:block;width:min(75%,230px);aspect-ratio:1;object-fit:contain;margin:10px auto 0;background:white;padding:8px;border-radius:8px}
+.receipt-qr-title{font-size:10px;letter-spacing:1px;color:var(--muted)}
+.receipt-footer{margin-top:22px;text-align:center}
+.review-overview{display:flex;align-items:center;gap:15px;padding:13px 17px;margin-bottom:14px;border:1px solid var(--line);border-radius:15px;background:var(--card-gradient)}
+.review-average{min-width:75px;display:grid;justify-items:center;gap:2px}
+.review-average strong{font-family:var(--font-detail),serif;font-size:30px;line-height:1}
+.review-average span{color:var(--star);letter-spacing:2px}
+.review-overview-info{display:grid;gap:4px}
+.review-overview-info strong{font-size:12px}
+.review-overview-info span{color:var(--muted);font-size:10px}
+.review-list{display:grid;gap:11px;margin-top:15px}
+.review-card{padding:15px;border:1px solid var(--line);border-radius:15px;background:var(--card-gradient)}
+.review-user{display:flex;align-items:center;gap:10px}
+.review-avatar{width:37px;height:37px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;background:var(--avatar-bg);color:var(--avatar-font);font-weight:700}
+.review-user-info{flex:1;min-width:0}
+.review-user-info strong{display:block;font-size:12px}
+.review-user-info small{color:var(--muted);font-size:9px}
+.review-stars{color:var(--star);letter-spacing:2px;font-size:13px}
+.review-message{margin:12px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--text);font-size:12px;line-height:1.7}
+.review-images{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.review-images img{width:85px;height:85px;border-radius:9px;object-fit:cover;border:1px solid var(--line)}
+.page-description{color:var(--muted);font-size:11px;line-height:1.7}
+.contact-list{display:grid;gap:10px;margin-top:17px}
+.contact-button{min-height:55px;display:flex;align-items:center;gap:13px;padding:12px 16px;border:1px solid var(--line);border-radius:13px;background:var(--card-gradient);color:var(--text);text-decoration:none;transition:border .2s,transform .2s}
+.contact-button:hover{border-color:var(--accent);transform:translateY(-1px)}
+.contact-icon{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;background:var(--card2);color:var(--accent)}
+.contact-button strong{font-size:12px}
+.settings-card h3,.admin-panel h3{margin:0 0 6px;font-family:var(--font-detail),serif;font-size:24px}
+.settings-card p{color:var(--muted);font-size:11px}
+.theme-group{padding-top:16px;margin-top:15px;border-top:1px solid var(--line)}
+.theme-group h4{margin:0 0 10px;color:var(--accent);font-size:10px;letter-spacing:1.4px}
+.theme-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.theme-option{min-height:58px;padding:8px;border:1px solid var(--line);border-radius:11px;background:var(--card2);color:var(--text);text-align:left;font-size:10px}
+.theme-option.active{outline:2px solid var(--accent);border-color:var(--accent)}
+.theme-swatch{display:flex;gap:4px;margin-bottom:6px}
+.theme-swatch i{width:14px;height:14px;border-radius:50%;border:1px solid rgba(120,120,120,.3)}
+.color-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.color-fields label{display:grid;gap:5px;color:var(--muted);font-size:10px}
+.color-fields input{height:38px;padding:8px}
+.hex-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.hex-fields label{display:grid;gap:5px;color:var(--muted);font-size:10px}
+.hex-fields input{height:39px;padding:8px 10px;font-family:monospace;font-size:12px}
+.range-label{display:flex;justify-content:space-between;margin:12px 0 5px;color:var(--muted);font-size:10px}
+input[type="range"]{padding:0;accent-color:var(--accent)}
+input[type="file"]{font-size:10px}
+.bottom-nav{
+position:fixed;z-index:20;left:50%;bottom:0;transform:translateX(-50%);
+width:min(100%,900px);display:flex;justify-content:space-around;
+padding:9px 8px calc(9px + env(safe-area-inset-bottom));
+border:1px solid var(--line);border-bottom:0;border-radius:18px 18px 0 0;
+background:var(--card-gradient);box-shadow:0 -8px 25px rgba(0,0,0,.2)
+}
+.nav-item{flex:1;display:grid;justify-items:center;gap:3px;padding:5px 2px;border:0;background:transparent;color:var(--muted);font-size:9px}
+.nav-icon{font-size:19px;line-height:1.1}
+.nav-item.active{color:var(--accent)}
+.admin-tabs{display:flex;gap:7px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}
+.admin-tab{flex-shrink:0;padding:8px 12px;border:1px solid var(--line);border-radius:30px;background:var(--card-gradient);color:var(--muted);font-size:10px}
+.admin-tab.active{background:var(--button-gradient);color:var(--button-text);border-color:var(--button)}
+.admin-panel{display:none;padding:16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--card-gradient)}
+.admin-panel.active{display:block}
+.admin-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:15px}
+.admin-panel-heading h3{margin:0}
+.admin-panel-heading button{flex-shrink:0;padding:9px 11px;font-size:9px}
+.admin-form{display:grid;gap:3px;margin-top:15px}
+.admin-form textarea{resize:vertical}
+.field-hint{color:var(--muted);font-size:9px}
+.admin-product-list{display:grid;gap:9px}
+.admin-product-row{display:flex;align-items:center;gap:10px;padding:9px;border:1px solid var(--line);border-radius:12px;background:var(--bg2)}
+.admin-product-row img{width:48px;height:48px;flex-shrink:0;object-fit:cover;border-radius:8px}
+.admin-product-details{flex:1;min-width:0}
+.admin-product-details strong{display:block;font-size:11px;overflow-wrap:anywhere}
+.admin-product-details small{color:var(--accent);font-size:10px}
+.admin-row-actions{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end}
+.admin-row-actions button{min-width:28px;height:28px;padding:3px 6px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--text);font-size:10px}
+.admin-row-actions .delete-button{color:var(--danger)}
+.admin-contact-row,.history-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:11px}
+.admin-qr-preview{display:block;width:160px;height:160px;margin:15px auto;object-fit:contain;background:white;border-radius:10px}
+.modal{position:fixed;z-index:50;inset:0;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(8,5,12,.78);backdrop-filter:blur(7px)}
+.modal.open{display:flex}
+.modal-card{position:relative;width:min(100%,480px);max-height:90vh;overflow-y:auto;padding:23px;border:1px solid var(--line);border-radius:20px;background:var(--card-gradient);box-shadow:var(--shadow)}
+.modal-card h2{margin:4px 0 10px;font-family:var(--font-detail),serif;font-size:29px}
+.modal-close{position:absolute;top:12px;right:14px;width:30px;height:30px;border:1px solid var(--line);border-radius:50%;background:var(--card2);color:var(--text);font-size:19px}
+.rating-field{display:grid;gap:7px;color:var(--muted);font-size:11px}
+.rating-picker{display:flex;gap:6px}
+.rating-picker button{border:0;background:transparent;color:var(--muted);font-size:28px;padding:0 2px}
+.rating-picker button.selected{color:var(--star)}
+.review-file-preview{display:flex;flex-wrap:wrap;gap:7px}
+.review-file-preview img{width:65px;height:65px;object-fit:cover;border-radius:8px}
+.form-message{min-height:18px;color:var(--danger);font-size:10px}
+.toast{position:fixed;z-index:100;left:50%;bottom:95px;transform:translate(-50%,15px);max-width:90%;padding:11px 17px;border:1px solid var(--line);border-radius:30px;background:var(--card2);color:var(--text);font-size:11px;opacity:0;pointer-events:none;transition:.25s;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* รายละเอียดสินค้า */
+.product-detail-image{width:100%;max-height:300px;aspect-ratio:1/1;object-fit:cover;border-radius:14px;background:var(--bg2);margin:12px 0}
+.product-detail-price{color:var(--accent);font-size:20px;font-weight:700;margin:10px 0}
+.product-detail-description{white-space:pre-wrap;line-height:1.8;color:var(--muted);font-size:12px}
+.product-detail-tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.product-detail-tags span{border:1px solid var(--line);border-radius:20px;padding:5px 9px;font-size:10px;color:var(--muted)}
+.product-detail-drive{display:block;text-align:center;margin-top:10px;color:var(--accent);font-size:11px}
+.product-image-wrap:active{opacity:.92}
+
+/* ปุ่มลบรีวิวสำหรับแอดมิน */
+.review-admin-actions{display:flex;justify-content:flex-end;margin-top:10px}
+.review-delete-button{border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:transparent;color:var(--danger);font-size:10px}
+
+/* บัญชีรับชำระเงิน */
+.payment-account-list{display:grid;gap:13px}
+.payment-account-card{padding:16px;border:1px solid var(--line);border-radius:var(--radius);background:var(--card-gradient);text-align:center}
+.payment-account-card h3{font-family:var(--font-detail),serif;font-size:23px;margin:0 0 5px}
+.payment-account-bank{font-size:11px;color:var(--muted)}
+.payment-account-number{font-size:15px;letter-spacing:1px;margin:10px 0;color:var(--text);overflow-wrap:anywhere}
+.payment-account-qr{display:block;width:min(100%,230px);aspect-ratio:1;object-fit:contain;margin:13px auto 0;padding:8px;border-radius:10px;background:#fff}
+.payment-account-empty{padding:25px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);text-align:center;font-size:12px}
+.payment-account-admin{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.payment-account-admin strong{font-size:11px}
+.payment-account-admin small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.payment-qr-preview{width:120px;height:120px;object-fit:contain;background:#fff;padding:5px;border-radius:8px;margin:8px 0}
+
+/* Custom Theme */
+.theme-help{font-size:10px;color:var(--muted);line-height:1.7;margin:6px 0 12px}
+.theme-subheading{font-size:11px;color:var(--accent);letter-spacing:1px;margin:18px 0 9px}
+.theme-save-row{display:flex;gap:8px}
+.theme-save-row button{flex:1}
+@media(min-width:650px){
+.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.store-cover{min-height:220px}
+}
+@media(max-width:420px){
+.app-shell{padding-left:12px;padding-right:12px}
+.store-cover{min-height:165px;padding:18px 13px}
+.store-avatar{width:65px;height:65px}
+.store-profile{gap:10px}
+.store-heading h1{font-size:25px}
+.header-actions{right:8px;top:25px}
+.round-action{width:34px;height:34px}
+.section-heading h2{font-size:30px}
+.product-grid{gap:9px}
+.product-info{padding:9px}
+.add-cart-button{padding:7px 9px;font-size:9px}
+.modal-card{padding:19px}
+}
+</style>
+</head>
+<body>
+<div class="background-layer" id="backgroundLayer"></div>
+<div class="app-shell">
+
+<header class="store-header">
+  <div class="store-cover" id="storeCover">
+    <div class="store-profile">
+      <img id="storeAvatar" class="store-avatar" alt="Store profile">
+      <div class="store-heading">
+        <div class="eyebrow">WELCOME TO</div>
+        <h1 id="storeName">JAORICHE STUDIO16</h1>
+        <p id="storeDescription">A little gothic corner made with love.</p>
+      </div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="round-action" onclick="showPage('cartPage')" aria-label="Shopping cart">
+      <span>♡</span><b id="topCartCount">0</b>
+    </button>
+    <button class="round-action" onclick="openAdminEntry()" aria-label="Admin Settings">⚙</button>
+  </div>
+</header>
+
+<main class="main-content">
+
+<section class="page active" id="shopPage">
+  <div class="section-heading">
+    <div><span class="eyebrow">DISCOVER OUR COLLECTION</span><h2>Our Products</h2></div>
+    <span class="small-counter" id="productCount">0 ITEMS</span>
+  </div>
+  <div class="shop-tools">
+    <input id="productSearch" type="search" placeholder="Search products...">
+    <select id="categoryFilter"><option value="all">All Categories</option></select>
+  </div>
+  <div class="tag-filter" id="tagFilter"></div>
+  <div class="product-grid" id="productGrid"><div class="empty-state">No products available yet.</div></div>
+</section>
+
+<section class="page" id="cartPage">
+  <div class="section-heading">
+    <div><span class="eyebrow">YOUR SELECTED ITEMS</span><h2>Shopping Cart</h2></div>
+    <span class="small-counter" id="cartQuantity">0 ITEMS</span>
+  </div>
+  <div class="cart-list" id="cartItems"></div>
+  <div class="summary-card" id="cartSummary">
+    <div class="summary-line"><span>Subtotal</span><strong id="cartSubtotal">฿0.00</strong></div>
+    <div class="summary-line total-line"><span>Total</span><strong id="cartTotal">฿0.00</strong></div>
+    <button class="primary-button full-button" id="checkoutButton">CONTINUE TO RECEIPT</button>
+  </div>
+</section>
+
+<section class="page" id="receiptPage">
+  <div class="section-heading"><div><span class="eyebrow">ORDER SUMMARY</span><h2>Your Receipt</h2></div></div>
+  <div class="receipt-editor">
+    <label for="customerNameInput">Customer Name</label>
+    <input id="customerNameInput" type="text" maxlength="80" placeholder="Enter customer name...">
+    <button class="primary-button full-button" id="generateReceiptButton">GENERATE RECEIPT</button>
+  </div>
+  <div class="receipt-paper" id="receiptPaper">
+    <div class="receipt-brand">
+      <div class="receipt-brand-name" id="receiptStoreName">JAORICHE STUDIO16</div>
+      <div class="receipt-caption">THANK YOU FOR YOUR ORDER</div>
+    </div>
+    <div class="receipt-divider"></div>
+    <div class="receipt-meta">
+      <div><span>Receipt No.</span><strong id="receiptNumber">-</strong></div>
+      <div><span>Date</span><strong id="receiptDate">-</strong></div>
+      <div><span>Customer</span><strong id="receiptCustomerName">-</strong></div>
+    </div>
+    <div class="receipt-divider"></div>
+    <div class="receipt-items" id="receiptItems"></div>
+    <div class="receipt-divider"></div>
+    <div class="receipt-total-row"><span>TOTAL</span><strong id="receiptTotal">฿0.00</strong></div>
+    <div class="receipt-qr" id="receiptQrWrap">
+      <div class="receipt-qr-title">PAYMENT QR CODE</div>
+      <img id="receiptQrImage" alt="Payment QR Code">
+    </div>
+    <div class="receipt-footer">THANK YOU FOR SUPPORTING OUR STORE ♡</div>
+  </div>
+  <button class="primary-button full-button" id="saveReceiptButton">SAVE RECEIPT AS IMAGE</button>
+</section>
+
+<section class="page" id="reviewsPage">
+  <div class="section-heading"><div><span class="eyebrow">CUSTOMER FEEDBACK</span><h2>Reviews</h2></div></div>
+  <div class="review-overview">
+    <div class="review-average"><strong id="averageScore">0.0</strong><span id="averageStarIcons">☆☆☆☆☆</span></div>
+    <div class="review-overview-info"><strong id="reviewCount">0 Reviews</strong><span>Customer rating summary</span></div>
+  </div>
+  <button class="primary-button full-button" id="openReviewButton">WRITE A REVIEW</button>
+  <div class="review-list" id="reviewList"><div class="empty-state">No reviews yet.</div></div>
+</section>
+
+<section class="page" id="contactPage">
+  <div class="section-heading"><div><span class="eyebrow">LET'S KEEP IN TOUCH</span><h2>Contact Us</h2></div></div>
+  <p class="page-description">Choose your preferred channel to contact our store.</p>
+  <div class="contact-list" id="contactPageList"></div>
+</section>
+
+<section class="page" id="paymentPage">
+  <div class="section-heading"><div><span class="eyebrow">PAYMENT INFORMATION</span><h2>Payment</h2></div></div>
+  <p class="page-description">Choose a payment account and scan its QR code.</p>
+  <div class="payment-account-list" id="paymentAccountList">
+    <div class="payment-account-empty">Payment accounts will be available soon.</div>
+  </div>
+</section>
+<section class="page" id="adminLoginPage">
+  <div class="section-heading"><div><span class="eyebrow">STORE MANAGEMENT</span><h2>Admin Login</h2></div></div>
+  <div class="settings-card login-card">
+    <label for="adminPassword">Admin Password</label>
+    <input id="adminPassword" type="password" placeholder="Enter admin password">
+    <button class="primary-button full-button" id="adminLoginButton">LOG IN</button>
+    <p class="form-message" id="adminLoginMessage"></p>
+  </div>
+</section>
+
+<section class="page" id="adminPage">
+  <div class="section-heading">
+    <div><span class="eyebrow">CONTROL CENTER</span><h2>Admin Panel</h2></div>
+    <button class="text-button" id="adminLogoutButton">LOG OUT</button>
+  </div>
+
+  <div class="admin-tabs">
+    <button class="admin-tab active" data-admin-tab="products">Products</button>
+    <button class="admin-tab" data-admin-tab="store">Store Profile</button>
+    <button class="admin-tab" data-admin-tab="contacts">Contacts</button>
+    <button class="admin-tab" data-admin-tab="qr">Payment QR</button>
+    <button class="admin-tab" data-admin-tab="accounts">Payment Accounts</button>
+    <button class="admin-tab" data-admin-tab="history">Receipt History</button>
+    <button class="admin-tab" data-admin-tab="theme">Theme</button>
+  </div>
+
+  <div class="admin-panel active" id="adminProductsPanel">
+    <div class="admin-panel-heading">
+      <h3>Manage Products</h3>
+      <button class="primary-button" id="addProductButton">+ ADD PRODUCT</button>
+    </div>
+    <div id="adminProductList" class="admin-product-list"></div>
+  </div>
+
+  <div class="admin-panel" id="adminStorePanel">
+    <h3>Store Profile</h3>
+    <form id="storeProfileForm" class="admin-form">
+      <label>Store Name<input id="editStoreName" maxlength="60"></label>
+      <label>Store Description<input id="editStoreDescription" maxlength="180"></label>
+      <label>Profile Image<input id="editStoreAvatar" type="file" accept="image/*"></label>
+      <label>Cover Image<input id="editStoreCover" type="file" accept="image/*"></label>
+      <button class="primary-button full-button" type="submit">SAVE STORE PROFILE</button>
+    </form>
+  </div>
+
+  <div class="admin-panel" id="adminContactsPanel">
+    <div class="admin-panel-heading">
+      <h3>Contact Channels</h3>
+      <button class="primary-button" id="addContactButton">+ ADD CHANNEL</button>
+    </div>
+    <div id="adminContactList"></div>
+  </div>
+
+  <div class="admin-panel" id="adminQrPanel">
+    <h3>Payment QR Code</h3>
+    <p class="page-description">This QR code will appear at the bottom of the receipt.</p>
+    <input type="file" id="paymentQrInput" accept="image/*">
+    <img id="adminQrPreview" class="admin-qr-preview" alt="QR preview">
+    <button class="primary-button full-button" id="saveQrButton">SAVE PAYMENT QR</button>
+  </div>
+
+  <div class="admin-panel" id="adminPaymentAccountsPanel">
+    <div class="admin-panel-heading">
+      <h3>Payment Accounts</h3>
+      <button class="primary-button" id="addPaymentAccountButton">+ ADD ACCOUNT</button>
+    </div>
+    <p class="page-description">Manage the payment accounts displayed on the Payment page.</p>
+    <div id="adminPaymentAccountList"></div>
+  </div>
+
+  <div class="admin-panel" id="adminHistoryPanel">
+    <h3>Receipt History</h3>
+    <div id="receiptHistoryList"></div>
+  </div>
+
+  <div class="admin-panel" id="adminThemePanel">
+    <h3>Theme Settings</h3>
+    <p class="page-description">Edit website colors in Custom Theme. All color settings are available only in this admin section.</p>
+
+    <div class="theme-group">
+      <h4>LIGHT THEMES</h4>
+      <div class="theme-grid" id="lightThemeGrid"></div>
+    </div>
+
+    <div class="theme-group">
+      <h4>DARK THEMES</h4>
+      <div class="theme-grid" id="darkThemeGrid"></div>
+    </div>
+
+    <div class="theme-group">
+      <h4>CUSTOM THEME</h4>
+      <p class="theme-help">กรอกค่าสีในรูปแบบ HEX เช่น #100c16 โดยสามารถกำหนดสีต้นทางและปลายทางของ Gradient แยกกันได้</p>
+
+      <div class="theme-subheading">BACKGROUND</div>
+      <div class="hex-fields">
+        <label>Background Color<input id="hexBg" value="#100c16" placeholder="#100c16"></label>
+        <label>Background Gradient Color<input id="hexBg2" value="#19131f" placeholder="#19131f"></label>
+      </div>
+
+      <div class="theme-subheading">CARD</div>
+      <div class="hex-fields">
+        <label>Card Color<input id="hexCard" value="#211829" placeholder="#211829"></label>
+        <label>Card Gradient Color<input id="hexCard2" value="#2a2032" placeholder="#2a2032"></label>
+        <label>Border Color<input id="hexBorder" value="#44334e" placeholder="#44334e"></label>
+      </div>
+
+      <div class="theme-subheading">FONT</div>
+      <div class="hex-fields">
+        <label>Main Font Color<input id="hexText" value="#f5eaf5" placeholder="#f5eaf5"></label>
+        <label>Detail / Muted Font Color<input id="hexMuted" value="#b8a8bd" placeholder="#b8a8bd"></label>
+        <label>Main Font<input id="hexMainFont" value="Prompt" placeholder="Prompt"></label>
+        <label>Detail Font<input id="hexDetailFont" value="Cormorant Garamond" placeholder="Cormorant Garamond"></label>
+      </div>
+
+      <div class="theme-subheading">BUTTON</div>
+      <div class="hex-fields">
+        <label>Button Color<input id="hexButton" value="#e7a9ce" placeholder="#e7a9ce"></label>
+        <label>Button Gradient Color<input id="hexButton2" value="#b982b8" placeholder="#b982b8"></label>
+        <label>Button Font Color<input id="hexButtonText" value="#281a27" placeholder="#281a27"></label>
+      </div>
+
+      <div class="theme-subheading">ACCENT & OTHER COLORS</div>
+      <div class="hex-fields">
+        <label>Accent Color<input id="hexAccent" value="#e7a9ce" placeholder="#e7a9ce"></label>
+        <label>Secondary Accent<input id="hexAccent2" value="#b982b8" placeholder="#b982b8"></label>
+        <label>Star Color<input id="hexStar" value="#e7a9ce" placeholder="#e7a9ce"></label>
+        <label>Price Color<input id="hexPrice" value="#e7a9ce" placeholder="#e7a9ce"></label>
+        <label>Badge Color<input id="hexBadge" value="#e7a9ce" placeholder="#e7a9ce"></label>
+        <label>Danger Color<input id="hexDanger" value="#e58a9b" placeholder="#e58a9b"></label>
+        <label>Reviewer Avatar Background<input id="hexAvatarBg" value="#e7a9ce" placeholder="#e7a9ce"></label>
+        <label>Reviewer Avatar Font<input id="hexAvatarFont" value="#281a27" placeholder="#281a27"></label>
+      </div>
+
+      <div class="theme-subheading">NAVIGATION</div>
+      <div class="hex-fields">
+        <label>Navigation Background<input id="hexNav" value="#211829" placeholder="#211829"></label>
+        <label>Navigation Active Color<input id="hexNavActive" value="#e7a9ce" placeholder="#e7a9ce"></label>
+      </div>
+
+      <div class="theme-save-row" style="margin-top:15px">
+        <button class="primary-button" id="saveHexThemeButton" type="button">SAVE CUSTOM THEME</button>
+        <button class="secondary-button" id="resetHexThemeButton" type="button">RESET</button>
+      </div>
+    </div>
+
+    <div class="theme-group">
+      <h4>BACKGROUND IMAGE</h4>
+      <input type="file" id="backgroundImageInput" accept="image/*">
+      <label class="range-label">Blur <span id="backgroundBlurValue">0px</span></label>
+      <input type="range" id="backgroundBlur" min="0" max="20" value="0">
+      <label class="range-label">Opacity <span id="backgroundOpacityValue">35%</span></label>
+      <input type="range" id="backgroundOpacity" min="0" max="100" value="35">
+      <button class="secondary-button full-button" id="removeBackgroundButton">REMOVE BACKGROUND IMAGE</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<nav class="bottom-nav">
+  <button class="nav-item active" data-page="shopPage"><span class="nav-icon">✧</span><span>Products</span></button>
+  <button class="nav-item" data-page="reviewsPage"><span class="nav-icon">☆</span><span>Reviews</span></button>
+  <button class="nav-item" data-page="contactPage"><span class="nav-icon">♡</span><span>Contact</span></button>
+  <button class="nav-item" data-page="paymentPage"><span class="nav-icon">♧</span><span>Payment</span></button>
+</nav>
+</div>
+
+<!-- PRODUCT EDIT MODAL -->
+<div class="modal" id="productModal">
+  <div class="modal-card">
+    <button class="modal-close" data-close="productModal">×</button>
+    <span class="eyebrow">PRODUCT DETAILS</span>
+    <h2 id="productModalTitle">Add Product</h2>
+    <form id="productForm" class="admin-form">
+      <input type="hidden" id="productId">
+      <label>Product Name<input id="productName" required maxlength="100"></label>
+      <label>Price (THB)<input id="productPrice" type="number" min="0" step="0.01" required></label>
+      <label>Description<textarea id="productDescription" rows="3"></textarea></label>
+      <label>Category<input id="productCategory" placeholder="Example: Accessories"></label>
+      <label>Tags <span class="field-hint">Separate tags with commas</span><input id="productTags" placeholder="Cute, Handmade, New"></label>
+      <label>Product Label
+        <select id="productBadge">
+          <option value="">No Label</option>
+          <option value="HIT">HIT</option>
+          <option value="RECOMMENDED">RECOMMENDED</option>
+          <option value="SALE">SALE</option>
+        </select>
+      </label>
+      <label>Product Image<input id="productImage" type="file" accept="image/*"></label>
+      <label>Google Drive Link<input id="productDriveLink" type="url" placeholder="https://drive.google.com/..."></label>
+      <button class="primary-button full-button" type="submit">SAVE PRODUCT</button>
+    </form>
+  </div>
+</div>
+
+<!-- PRODUCT VIEW MODAL -->
+<div class="modal" id="productDetailsModal">
+  <div class="modal-card">
+    <button class="modal-close" data-close="productDetailsModal">×</button>
+    <span class="eyebrow">PRODUCT DETAILS</span>
+    <img id="detailProductImage" class="product-detail-image" alt="Product image">
+    <div id="detailProductBadge"></div>
+    <h2 id="detailProductName">Product Name</h2>
+    <div class="product-detail-price" id="detailProductPrice"></div>
+    <div class="page-description" id="detailProductCategory"></div>
+    <p class="product-detail-description" id="detailProductDescription"></p>
+    <div class="product-detail-tags" id="detailProductTags"></div>
+    <a id="detailDriveLink" class="product-detail-drive" href="#" target="_blank" rel="noopener" style="display:none">OPEN PRODUCT LINK ↗</a>
+    <button class="primary-button full-button" id="detailAddCartButton">ADD TO CART</button>
+  </div>
+</div>
+
+<!-- PAYMENT ACCOUNT MODAL -->
+<div class="modal" id="paymentAccountModal">
+  <div class="modal-card">
+    <button class="modal-close" data-close="paymentAccountModal">×</button>
+    <span class="eyebrow">PAYMENT ACCOUNT</span>
+    <h2 id="paymentAccountModalTitle">Add Payment Account</h2>
+    <form id="paymentAccountForm" class="admin-form">
+      <input type="hidden" id="paymentAccountId">
+      <label>Account Name<input id="paymentAccountName" required maxlength="100" placeholder="Account holder name"></label>
+      <label>Bank Name<input id="paymentBankName" required maxlength="100" placeholder="Bank name"></label>
+      <label>Account Number<input id="paymentAccountNumber" required maxlength="60" placeholder="Account number"></label>
+      <label>QR Code Image<input id="paymentAccountQRFile" type="file" accept="image/*"></label>
+      <img id="paymentAccountQRPreview" class="payment-qr-preview" alt="QR preview" style="display:none">
+      <button class="primary-button full-button" type="submit">SAVE PAYMENT ACCOUNT</button>
+    </form>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="modal" id="reviewModal">
+  <div class="modal-card">
+    <button class="modal-close" data-close="reviewModal">×</button>
+    <span class="eyebrow">SHARE YOUR EXPERIENCE</span>
+    <h2>Write a Review</h2>
+    <form id="reviewForm" class="admin-form">
+      <label>Your Name<input id="reviewName" maxlength="40" required placeholder="Enter your name"></label>
+      <div class="rating-field">
+        <span>Your Rating</span>
+        <div class="rating-picker" id="ratingPicker">
+          <button type="button" data-rating="1">☆</button>
+          <button type="button" data-rating="2">☆</button>
+          <button type="button" data-rating="3">☆</button>
+          <button type="button" data-rating="4">☆</button>
+          <button type="button" data-rating="5">☆</button>
+        </div>
+        <span id="ratingLabel">Select a rating</span>
+      </div>
+      <label>Your Review<textarea id="reviewText" rows="4" maxlength="1000" required placeholder="Write your review..."></textarea></label>
+      <label>Attach Images or GIFs<input id="reviewFiles" type="file" accept="image/*,.gif" multiple></label>
+      <div class="review-file-preview" id="reviewFilePreview"></div>
+      <button class="primary-button full-button" type="submit">SUBMIT REVIEW</button>
+    </form>
+  </div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="modal" id="contactModal">
+  <div class="modal-card">
+    <button class="modal-close" data-close="contactModal">×</button>
+    <h2 id="contactModalTitle">Add Contact Channel</h2>
+    <form id="contactForm" class="admin-form">
+      <input type="hidden" id="contactId">
+      <label>Channel Name<input id="contactName" required placeholder="Instagram"></label>
+      <label>Link / URL<input id="contactUrl" type="url" required placeholder="https://..."></label>
+      <label>Icon / Symbol<input id="contactIcon" maxlength="8" placeholder="♡"></label>
+      <button class="primary-button full-button" type="submit">SAVE CHANNEL</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<script>
+  "use strict";
+
+/* ---------- CONFIGURATION ---------- */
+const FIREBASE_CONFIG = {
+  databaseURL:"https://zzzzz-6-93901-default-rtdb.firebaseio.com/"
+};
+const ADMIN_PASSWORD = "JR1234";
+
+firebase.initializeApp(FIREBASE_CONFIG);
+const database = firebase.database();
+
+const DB = {
+  store:"store",
+  products:"products",
+  contacts:"contacts",
+  qr:"paymentQR",
+  receipts:"receipts",
+  reviews:"reviews",
+  theme:"theme",
+  paymentAccounts:"paymentAccounts"
+};
+
+const $ = id => document.getElementById(id);
+
+let products=[],contacts=[],receipts=[],reviews=[],paymentAccounts=[];
+let cart={},storeData={},paymentQR="",currentReceipt=null;
+let isAdmin=false,selectedRating=0,selectedReviewFiles=[];
+let currentTag="all",currentAdminTab="products",activeTheme=null;
+
+/* ---------- HELPERS ---------- */
+function dbRef(path){return database.ref(path)}
+function makeId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function money(value){
+  return "฿"+Number(value||0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function escapeHTML(value){
+  return String(value??"").replace(/[&<>"']/g,char=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  })[char]);
+}
+function safeURL(value){
+  try{
+    const url=new URL(value);
+    if(url.protocol==="http:"||url.protocol==="https:")return url.href;
+  }catch(error){}
+  return "";
+}
+function showToast(message){
+  const toast=$("toast");
+  toast.textContent=message;
+  toast.classList.add("show");
+  clearTimeout(showToast.timer);
+  showToast.timer=setTimeout(()=>toast.classList.remove("show"),2500);
+}
+function openModal(id){$(id)?.classList.add("open")}
+function closeModal(id){$(id)?.classList.remove("open")}
+function fileToDataURL(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve(reader.result);
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+}
+function compressImage(file,maxSize=1000,quality=.78){
+  return new Promise((resolve,reject)=>{
+    if(!file||!file.type.startsWith("image/")){
+      reject(new Error("Please select an image file."));
+      return;
+    }
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const image=new Image();
+      image.onload=()=>{
+        const scale=Math.min(1,maxSize/Math.max(image.width,image.height));
+        const canvas=document.createElement("canvas");
+        canvas.width=Math.max(1,Math.round(image.width*scale));
+        canvas.height=Math.max(1,Math.round(image.height*scale));
+        canvas.getContext("2d").drawImage(image,0,0,canvas.width,canvas.height);
+        resolve(canvas.toDataURL("image/jpeg",quality));
+      };
+      image.onerror=reject;
+      image.src=reader.result;
+    };
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+}
+async function uploadImage(file,maxSize=1000){
+  if(!file)return "";
+  return compressImage(file,maxSize,.78);
+}
+function setImage(element,src){
+  if(!element)return;
+  if(src){element.src=src;element.style.display="block"}
+  else{element.removeAttribute("src");element.style.display="none"}
+}
+function getProduct(id){return products.find(item=>item.id===id)}
+function getCartItems(){
+  return Object.entries(cart).map(([id,quantity])=>{
+    const product=getProduct(id);
+    if(!product)return null;
+    return {...product,quantity:Number(quantity||0)};
+  }).filter(item=>item&&item.quantity>0);
+}
+function getCartQuantity(){return getCartItems().reduce((sum,item)=>sum+item.quantity,0)}
+function getCartTotal(){
+  return getCartItems().reduce((sum,item)=>sum+Number(item.price||0)*item.quantity,0);
+}
+async function saveData(path,value){await dbRef(path).set(value)}
+async function removeData(path){await dbRef(path).remove()}
+async function readData(path,fallback=null){
+  const snapshot=await dbRef(path).once("value");
+  const value=snapshot.val();
+  return value===null?fallback:value;
+}
+function objectToArray(value){
+  if(!value||typeof value!=="object")return [];
+  return Object.entries(value).map(([id,item])=>({id,...(item||{})}));
+}
+
+/* ---------- FIREBASE LOADERS ---------- */
+async function loadStore(){
+  storeData=await readData(DB.store,{})||{};
+  $("storeName").textContent=storeData.name||"JAORICHE STUDIO16";
+  $("receiptStoreName").textContent=storeData.name||"JAORICHE STUDIO16";
+  $("storeDescription").textContent=storeData.description||"A little gothic corner made with love.";
+
+  if(storeData.avatar)setImage($("storeAvatar"),storeData.avatar);
+  else{
+    $("storeAvatar").src="data:image/svg+xml,"+encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#302239"/><text x="50" y="61" text-anchor="middle" font-size="42" fill="#e7a9ce">J</text></svg>'
+    );
+  }
+
+  if(storeData.cover){
+    $("storeCover").style.setProperty("--cover-image",`url("${storeData.cover}")`);
+  }
+  $("editStoreName").value=storeData.name||"JAORICHE STUDIO16";
+  $("editStoreDescription").value=storeData.description||"";
+}
+async function loadProducts(){
+  const data=await readData(DB.products,{});
+  products=objectToArray(data).sort((a,b)=>Number(a.order||0)-Number(b.order||0));
+  renderProducts();renderAdminProducts();renderCategoryFilter();renderTagFilter();renderCart();
+}
+async function loadContacts(){
+  contacts=objectToArray(await readData(DB.contacts,{}));
+  renderContactPage();renderAdminContacts();
+}
+async function loadReceipts(){
+  receipts=objectToArray(await readData(DB.receipts,{})).sort(
+    (a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0)
+  );
+  renderReceiptHistory();
+}
+async function loadPaymentQR(){
+  paymentQR=await readData(DB.qr,"")||"";
+  setImage($("adminQrPreview"),paymentQR);
+  setImage($("receiptQrImage"),paymentQR);
+  $("receiptQrWrap").style.display=paymentQR?"block":"none";
+}
+
+/* ---------- PRODUCT DISPLAY ---------- */
+function renderCategoryFilter(){
+  const select=$("categoryFilter");
+  const previous=select.value;
+  const categories=[...new Set(products.map(item=>String(item.category||"").trim()).filter(Boolean))]
+    .sort((a,b)=>a.localeCompare(b));
+  select.innerHTML='<option value="all">All Categories</option>'+
+    categories.map(category=>`<option value="${escapeHTML(category)}">${escapeHTML(category)}</option>`).join("");
+  if(categories.includes(previous))select.value=previous;
+}
+function renderTagFilter(){
+  const tags=[...new Set(products.flatMap(item=>Array.isArray(item.tags)?item.tags:[]))];
+  $("tagFilter").innerHTML=[
+    `<button class="${currentTag==="all"?"active":""}" data-tag="all">All</button>`,
+    ...tags.map(tag=>`<button class="${currentTag===tag?"active":""}" data-tag="${escapeHTML(tag)}">${escapeHTML(tag)}</button>`)
+  ].join("");
+}
+function renderProducts(){
+  const search=$("productSearch").value.trim().toLowerCase();
+  const category=$("categoryFilter").value;
+  const filtered=products.filter(product=>{
+    const matchesSearch=!search||
+      String(product.name||"").toLowerCase().includes(search)||
+      String(product.description||"").toLowerCase().includes(search)||
+      (Array.isArray(product.tags)&&product.tags.some(tag=>String(tag).toLowerCase().includes(search)));
+    const matchesCategory=category==="all"||product.category===category;
+    const tags=Array.isArray(product.tags)?product.tags:[];
+    const matchesTag=currentTag==="all"||tags.includes(currentTag);
+    return matchesSearch&&matchesCategory&&matchesTag;
+  });
+
+  $("productCount").textContent=`${filtered.length} ITEMS`;
+  if(!filtered.length){
+    $("productGrid").innerHTML='<div class="empty-state">No products found.</div>';
+    return;
+  }
+
+  $("productGrid").innerHTML=filtered.map(product=>{
+    const image=product.image
+      ?`<img class="product-image" src="${product.image}" alt="${escapeHTML(product.name)}">`
+      :'<div class="product-placeholder">JAORICHE ♡</div>';
+    const badge=product.badge?`<span class="product-badge">${escapeHTML(product.badge)}</span>`:"";
+    const driveLink=safeURL(product.driveLink);
+    const drive=driveLink
+      ?`<a class="drive-button" href="${driveLink}" target="_blank" rel="noopener" aria-label="Open product link">↗</a>`
+      :"";
+    const tags=(Array.isArray(product.tags)?product.tags:[])
+      .map(tag=>`<span>${escapeHTML(tag)}</span>`).join("");
+
+    return `
+      <article class="product-card">
+        <div class="product-image-wrap" data-product-details="${escapeHTML(product.id)}">
+          ${image}${badge}${drive}
+        </div>
+        <div class="product-info">
+          <h3>${escapeHTML(product.name)}</h3>
+          <p class="product-description">${escapeHTML(product.description||"")}</p>
+          <div class="product-tags">${tags}</div>
+          <div class="product-buy-row">
+            <span class="product-price">${money(product.price)}</span>
+            <button class="add-cart-button" data-add-cart="${escapeHTML(product.id)}">+ ADD</button>
+          </div>
+        </div>
+      </article>`;
+  }).join("");
+}
+
+/* ---------- PRODUCT DETAILS ---------- */
+function openProductDetails(id){
+  const product=getProduct(id);
+  if(!product)return;
+
+  $("detailProductName").textContent=product.name||"";
+  $("detailProductPrice").textContent=money(product.price);
+  $("detailProductDescription").textContent=product.description||"";
+  $("detailProductCategory").textContent=product.category?`Category: ${product.category}`:"";
+  $("detailProductTags").innerHTML=(Array.isArray(product.tags)?product.tags:[])
+    .map(tag=>`<span>${escapeHTML(tag)}</span>`).join("");
+  $("detailProductBadge").innerHTML=product.badge
+    ?`<span class="product-badge" style="position:static;display:inline-block">${escapeHTML(product.badge)}</span>`:"";
+
+  if(product.image)setImage($("detailProductImage"),product.image);
+  else{
+    $("detailProductImage").src="data:image/svg+xml,"+encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><rect width="300" height="300" fill="#211829"/><text x="150" y="160" text-anchor="middle" font-size="28" fill="#e7a9ce">JAORICHE ♡</text></svg>'
+    );
+  }
+
+  const drive=safeURL(product.driveLink);
+  if(drive){
+    $("detailDriveLink").href=drive;
+    $("detailDriveLink").style.display="block";
+  }else{
+    $("detailDriveLink").removeAttribute("href");
+    $("detailDriveLink").style.display="none";
+  }
+
+  $("detailAddCartButton").dataset.productId=id;
+  openModal("productDetailsModal");
+}
+
+/* ---------- CART ---------- */
+async function addToCart(id){
+  const product=getProduct(id);
+  if(!product)return;
+  cart[id]=Number(cart[id]||0)+1;
+  renderCart();
+  showToast("Added to your cart.");
+}
+function changeQuantity(id,amount){
+  if(!cart[id])return;
+  cart[id]=Number(cart[id])+amount;
+  if(cart[id]<=0)delete cart[id];
+  renderCart();
+}
+function removeCartItem(id){delete cart[id];renderCart()}
+function renderCart(){
+  const items=getCartItems(),quantity=getCartQuantity(),total=getCartTotal();
+  $("topCartCount").textContent=quantity;
+  $("cartQuantity").textContent=`${quantity} ITEMS`;
+  $("cartSubtotal").textContent=money(total);
+  $("cartTotal").textContent=money(total);
+
+  if(!items.length){
+    $("cartItems").innerHTML='<div class="empty-state">Your cart is empty.</div>';
+    $("cartSummary").style.display="none";
+    return;
+  }
+  $("cartSummary").style.display="block";
+  $("cartItems").innerHTML=items.map(item=>`
+    <div class="cart-item">
+      ${item.image?`<img src="${item.image}" alt="${escapeHTML(item.name)}">`:`<div class="cart-placeholder">♡</div>`}
+      <div class="cart-item-info">
+        <strong>${escapeHTML(item.name)}</strong>
+        <small>${money(item.price)} each</small>
+        <div class="quantity-control">
+          <button data-quantity="${escapeHTML(item.id)}" data-change="-1">−</button>
+          <span>${item.quantity}</span>
+          <button data-quantity="${escapeHTML(item.id)}" data-change="1">+</button>
+        </div>
+      </div>
+      <button class="remove-item" data-remove-cart="${escapeHTML(item.id)}" aria-label="Remove item">×</button>
+    </div>`).join("");
+}
+
+/* ---------- PRODUCT ADMIN ---------- */
+function renderAdminProducts(){
+  if(!isAdmin)return;
+  if(!products.length){
+    $("adminProductList").innerHTML='<div class="empty-state">No products created yet.</div>';
+    return;
+  }
+  $("adminProductList").innerHTML=products.map((product,index)=>`
+    <div class="admin-product-row">
+      ${product.image?`<img src="${product.image}" alt="">`:`<div class="admin-product-placeholder">♡</div>`}
+      <div class="admin-product-details">
+        <strong>${escapeHTML(product.name)}</strong><small>${money(product.price)}</small>
+      </div>
+      <div class="admin-row-actions">
+        <button data-move-product="${escapeHTML(product.id)}" data-direction="-1" ${index===0?"disabled":""}>↑</button>
+        <button data-move-product="${escapeHTML(product.id)}" data-direction="1" ${index===products.length-1?"disabled":""}>↓</button>
+        <button data-edit-product="${escapeHTML(product.id)}">EDIT</button>
+        <button class="delete-button" data-delete-product="${escapeHTML(product.id)}">×</button>
+      </div>
+    </div>`).join("");
+}
+function openProductEditor(id=""){
+  $("productForm").reset();
+  $("productId").value=id;
+  const product=id?getProduct(id):null;
+  $("productModalTitle").textContent=product?"Edit Product":"Add Product";
+  if(product){
+    $("productName").value=product.name||"";
+    $("productPrice").value=product.price??"";
+    $("productDescription").value=product.description||"";
+    $("productCategory").value=product.category||"";
+    $("productTags").value=Array.isArray(product.tags)?product.tags.join(", "):"";
+    $("productBadge").value=product.badge||"";
+    $("productDriveLink").value=product.driveLink||"";
+  }
+  openModal("productModal");
+}
+async function saveProduct(event){
+  event.preventDefault();
+  const id=$("productId").value||makeId();
+  const existing=getProduct(id);
+  const imageFile=$("productImage").files[0];
+  let image=existing?.image||"";
+  if(imageFile)image=await uploadImage(imageFile);
+
+  const tags=$("productTags").value.split(",").map(tag=>tag.trim()).filter(Boolean);
+  const product={
+    name:$("productName").value.trim(),
+    price:Number($("productPrice").value),
+    description:$("productDescription").value.trim(),
+    category:$("productCategory").value.trim(),
+    tags,badge:$("productBadge").value,image,
+    driveLink:safeURL($("productDriveLink").value.trim()),
+    order:existing?Number(existing.order||0):products.reduce((max,item)=>Math.max(max,Number(item.order||0)),0)+1,
+    updatedAt:Date.now()
+  };
+  if(!product.name||!Number.isFinite(product.price)||product.price<0){
+    showToast("Please check the product information.");return;
+  }
+  await saveData(`${DB.products}/${id}`,product);
+  closeModal("productModal");
+  await loadProducts();
+  showToast("Product saved successfully.");
+}
+async function deleteProduct(id){
+  if(!confirm("Delete this product?"))return;
+  await removeData(`${DB.products}/${id}`);
+  delete cart[id];
+  await loadProducts();
+  showToast("Product deleted.");
+}
+async function moveProduct(id,direction){
+  const index=products.findIndex(item=>item.id===id);
+  const targetIndex=index+direction;
+  if(index<0||targetIndex<0||targetIndex>=products.length)return;
+  const reordered=[...products];
+  [reordered[index],reordered[targetIndex]]=[reordered[targetIndex],reordered[index]];
+  const updates={};
+  reordered.forEach((item,position)=>{updates[`${DB.products}/${item.id}/order`]=position+1});
+  await database.ref().update(updates);
+  await loadProducts();
+}
+
+/* ---------- PAGE NAVIGATION ---------- */
+function showPage(id){
+  document.querySelectorAll(".page").forEach(page=>{
+    page.classList.toggle("active",page.id===id);
+  });
+  document.querySelectorAll(".nav-item[data-page]").forEach(button=>{
+    button.classList.toggle("active",button.dataset.page===id);
+  });
+  if(id==="adminPage"&&!isAdmin){showPage("adminLoginPage");return}
+  if(id==="cartPage")renderCart();
+  if(id==="adminPage"){
+    renderAdminProducts();renderAdminContacts();renderAdminPaymentAccounts();renderReceiptHistory();renderReviews();
+  }
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function openAdminEntry(){
+  if(isAdmin){showPage("adminPage");return}
+  $("adminPassword").value="";
+  $("adminLoginMessage").textContent="";
+  showPage("adminLoginPage");
+}
+
+/* ---------- RECEIPT ---------- */
+function createReceiptNumber(){
+  const date=new Date();
+  const stamp=[date.getFullYear(),String(date.getMonth()+1).padStart(2,"0"),String(date.getDate()).padStart(2,"0")].join("");
+  return `JR-${stamp}-${Math.random().toString(36).slice(2,7).toUpperCase()}`;
+}
+function renderReceipt(receipt){
+  $("receiptNumber").textContent=receipt.number||"-";
+  $("receiptDate").textContent=receipt.date||"-";
+  $("receiptCustomerName").textContent=receipt.customerName||"-";
+  $("receiptTotal").textContent=money(receipt.total);
+  $("receiptItems").innerHTML=(receipt.items||[]).map(item=>`
+    <div class="receipt-item-row">
+      <span>${escapeHTML(item.name)} × ${Number(item.quantity)}</span>
+      <strong>${money(Number(item.price)*Number(item.quantity))}</strong>
+    </div>`).join("");
+  $("receiptQrWrap").style.display=paymentQR?"block":"none";
+  setImage($("receiptQrImage"),paymentQR);
+}
+async function generateReceipt(){
+  const items=getCartItems();
+  if(!items.length){showToast("Your cart is empty.");return}
+  const customerName=$("customerNameInput").value.trim();
+  if(!customerName){
+    showToast("Please enter the customer name.");
+    $("customerNameInput").focus();return;
+  }
+  const now=new Date();
+  currentReceipt={
+    id:makeId(),number:createReceiptNumber(),customerName,
+    date:now.toLocaleString("en-GB"),createdAt:Date.now(),
+    items:items.map(item=>({id:item.id,name:item.name,price:Number(item.price),quantity:Number(item.quantity)})),
+    total:getCartTotal()
+  };
+  renderReceipt(currentReceipt);
+  showPage("receiptPage");
+}
+async function saveReceiptAsImage(){
+  if(!currentReceipt){showToast("Please generate a receipt first.");return}
+  if(typeof html2canvas==="undefined"){showToast("Receipt image library is unavailable.");return}
+  try{
+    const canvas=await html2canvas($("receiptPaper"),{
+      scale:2,
+      backgroundColor:getComputedStyle($("receiptPaper")).backgroundColor,
+      useCORS:true
+    });
+    const link=document.createElement("a");
+    link.href=canvas.toDataURL("image/png");
+    link.download=`${currentReceipt.number}.png`;
+    document.body.appendChild(link);link.click();link.remove();
+
+    await saveData(`${DB.receipts}/${currentReceipt.id}`,currentReceipt);
+    receipts.unshift(currentReceipt);
+    renderReceiptHistory();
+    cart={};
+    $("customerNameInput").value="";
+    renderCart();
+    showToast("Receipt saved. Your cart has been cleared.");
+  }catch(error){
+    console.error(error);showToast("Unable to save receipt image.");
+  }
+}
+  /* ---------- REVIEWS ---------- */
+async function loadReviews(){
+  const data=await readData(DB.reviews,{});
+  reviews=objectToArray(data).sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));
+  renderReviews();
+}
+function renderReviews(){
+  const count=reviews.length;
+  const average=count?reviews.reduce((sum,review)=>sum+Number(review.rating||0),0)/count:0;
+  $("averageScore").textContent=average.toFixed(1);
+  $("averageStarIcons").textContent="★".repeat(Math.round(average))+"☆".repeat(5-Math.round(average));
+  $("reviewCount").textContent=`${count} ${count===1?"Review":"Reviews"}`;
+
+  if(!count){
+    $("reviewList").innerHTML='<div class="empty-state">No reviews yet. Be the first to review!</div>';
+    return;
+  }
+
+  $("reviewList").innerHTML=reviews.map(review=>{
+    const name=String(review.name||"Guest");
+    const initial=escapeHTML(name.trim().charAt(0).toUpperCase()||"G");
+    const rating=Math.max(0,Math.min(5,Number(review.rating||0)));
+    const images=(Array.isArray(review.images)?review.images:[])
+      .map(src=>`<img src="${src}" alt="Review attachment" loading="lazy">`).join("");
+
+    return `
+      <article class="review-card" data-review-id="${escapeHTML(review.id)}">
+        <div class="review-user">
+          <div class="review-avatar">${initial}</div>
+          <div class="review-user-info">
+            <strong>${escapeHTML(name)}</strong>
+            <small>${escapeHTML(review.date||"")}</small>
+          </div>
+          <div class="review-stars">${"★".repeat(rating)}${"☆".repeat(5-rating)}</div>
+        </div>
+        <p class="review-message">${escapeHTML(review.message||"")}</p>
+        ${images?`<div class="review-images">${images}</div>`:""}
+        ${isAdmin?`
+          <div class="review-admin-actions">
+            <button class="review-delete-button" data-delete-review="${escapeHTML(review.id)}">DELETE REVIEW</button>
+          </div>`:""}
+      </article>`;
+  }).join("");
+}
+async function deleteReview(id){
+  if(!isAdmin)return;
+  if(!confirm("Delete this customer review?"))return;
+  await removeData(`${DB.reviews}/${id}`);
+  await loadReviews();
+  showToast("Review deleted.");
+}
+function updateRatingPicker(rating){
+  selectedRating=Number(rating);
+  document.querySelectorAll("#ratingPicker button").forEach(button=>{
+    const value=Number(button.dataset.rating);
+    button.classList.toggle("selected",value<=selectedRating);
+    button.textContent=value<=selectedRating?"★":"☆";
+  });
+  const labels=["","Poor","Fair","Good","Very Good","Excellent"];
+  $("ratingLabel").textContent=labels[selectedRating]||"Select a rating";
+}
+async function previewReviewFiles(){
+  const files=[...$("reviewFiles").files];
+  if(files.length>3){
+    $("reviewFiles").value="";
+    $("reviewFilePreview").innerHTML="";
+    showToast("You can attach up to 3 images or GIFs.");
+    return;
+  }
+  selectedReviewFiles=files;
+  $("reviewFilePreview").innerHTML="";
+  for(const file of files){
+    if(!file.type.startsWith("image/")){showToast("Please select image or GIF files only.");continue}
+    const image=document.createElement("img");
+    image.alt="Attachment preview";
+    image.src=await fileToDataURL(file);
+    $("reviewFilePreview").appendChild(image);
+  }
+}
+async function submitReview(event){
+  event.preventDefault();
+  const name=$("reviewName").value.trim();
+  const message=$("reviewText").value.trim();
+  if(!name||!message||selectedRating<1){
+    showToast("Please enter your name, review and rating.");return;
+  }
+  if(selectedReviewFiles.length>3){showToast("You can attach up to 3 images.");return}
+
+  const images=[];
+  try{
+    for(const file of selectedReviewFiles){
+      if(!file.type.startsWith("image/"))continue;
+      if(file.type==="image/gif"){
+        if(file.size>1500000){showToast("GIF files must be smaller than 1.5 MB.");return}
+        images.push(await fileToDataURL(file));
+      }else{
+        images.push(await compressImage(file,900,.72));
+      }
+    }
+    const id=makeId();
+    await saveData(`${DB.reviews}/${id}`,{
+      name,rating:selectedRating,message,images,
+      createdAt:Date.now(),date:new Date().toLocaleDateString("en-GB")
+    });
+    $("reviewForm").reset();
+    $("reviewFilePreview").innerHTML="";
+    selectedReviewFiles=[];
+    updateRatingPicker(0);
+    closeModal("reviewModal");
+    await loadReviews();
+    showToast("Thank you for your review!");
+  }catch(error){
+    console.error(error);showToast("Unable to submit your review.");
+  }
+}
+
+/* ---------- CONTACT PAGE ---------- */
+function renderContactPage(){
+  const list=$("contactPageList");
+  if(!contacts.length){
+    list.innerHTML='<div class="empty-state">Contact channels will be available soon.</div>';
+    return;
+  }
+  list.innerHTML=contacts.map(contact=>{
+    const url=safeURL(contact.url);
+    if(!url)return "";
+    return `
+      <a class="contact-button" href="${url}" target="_blank" rel="noopener">
+        <span class="contact-icon">${escapeHTML(contact.icon||"♡")}</span>
+        <strong>${escapeHTML(contact.name)}</strong>
+        <span style="margin-left:auto;color:var(--muted)">↗</span>
+      </a>`;
+  }).join("");
+}
+function renderAdminContacts(){
+  if(!isAdmin)return;
+  if(!contacts.length){
+    $("adminContactList").innerHTML='<div class="empty-state">No contact channels added.</div>';
+    return;
+  }
+  $("adminContactList").innerHTML=contacts.map(contact=>`
+    <div class="admin-contact-row">
+      <span>${escapeHTML(contact.icon||"♡")} ${escapeHTML(contact.name)}</span>
+      <div class="admin-row-actions">
+        <button data-edit-contact="${escapeHTML(contact.id)}">EDIT</button>
+        <button class="delete-button" data-delete-contact="${escapeHTML(contact.id)}">×</button>
+      </div>
+    </div>`).join("");
+}
+function openContactEditor(id=""){
+  $("contactForm").reset();
+  $("contactId").value=id;
+  const contact=contacts.find(item=>item.id===id);
+  $("contactModalTitle").textContent=contact?"Edit Contact Channel":"Add Contact Channel";
+  if(contact){
+    $("contactName").value=contact.name||"";
+    $("contactUrl").value=contact.url||"";
+    $("contactIcon").value=contact.icon||"";
+  }
+  openModal("contactModal");
+}
+async function saveContact(event){
+  event.preventDefault();
+  const id=$("contactId").value||makeId();
+  const name=$("contactName").value.trim();
+  const url=safeURL($("contactUrl").value.trim());
+  if(!name||!url){showToast("Please enter a valid name and URL.");return}
+  await saveData(`${DB.contacts}/${id}`,{
+    name,url,icon:$("contactIcon").value.trim()||"♡"
+  });
+  closeModal("contactModal");
+  await loadContacts();
+  showToast("Contact channel saved.");
+}
+async function deleteContact(id){
+  if(!confirm("Delete this contact channel?"))return;
+  await removeData(`${DB.contacts}/${id}`);
+  await loadContacts();
+  showToast("Contact channel deleted.");
+}
+
+/* ---------- STORE PROFILE ---------- */
+async function saveStoreProfile(event){
+  event.preventDefault();
+  const avatarFile=$("editStoreAvatar").files[0];
+  const coverFile=$("editStoreCover").files[0];
+  let avatar=storeData.avatar||"",cover=storeData.cover||"";
+  try{
+    if(avatarFile)avatar=await uploadImage(avatarFile,700);
+    if(coverFile)cover=await uploadImage(coverFile,1500);
+    storeData={
+      ...storeData,
+      name:$("editStoreName").value.trim()||"JAORICHE STUDIO16",
+      description:$("editStoreDescription").value.trim(),
+      avatar,cover
+    };
+    await saveData(DB.store,storeData);
+    await loadStore();
+    showToast("Store profile updated.");
+  }catch(error){
+    console.error(error);showToast("Unable to save store profile.");
+  }
+}
+
+/* ---------- PAYMENT QR FOR RECEIPT ---------- */
+async function savePaymentQR(){
+  const file=$("paymentQrInput").files[0];
+  if(!file&&!paymentQR){showToast("Please select a QR image.");return}
+  try{
+    if(file)paymentQR=await uploadImage(file,900);
+    await saveData(DB.qr,paymentQR);
+    await loadPaymentQR();
+    showToast("Payment QR saved.");
+  }catch(error){
+    console.error(error);showToast("Unable to save QR image.");
+  }
+}
+
+/* ---------- PAYMENT ACCOUNTS ---------- */
+async function loadPaymentAccounts(){
+  paymentAccounts=objectToArray(await readData(DB.paymentAccounts,{}));
+  renderPaymentAccounts();
+  renderAdminPaymentAccounts();
+}
+function renderPaymentAccounts(){
+  const list=$("paymentAccountList");
+  if(!paymentAccounts.length){
+    list.innerHTML='<div class="payment-account-empty">Payment accounts will be available soon.</div>';
+    return;
+  }
+  list.innerHTML=paymentAccounts.map(account=>`
+    <article class="payment-account-card">
+      <h3>${escapeHTML(account.accountName||"Payment Account")}</h3>
+      <div class="payment-account-bank">${escapeHTML(account.bankName||"")}</div>
+      <div class="payment-account-number">${escapeHTML(account.accountNumber||"")}</div>
+      ${account.qr?`<img class="payment-account-qr" src="${account.qr}" alt="QR Code for ${escapeHTML(account.accountName||"payment")}">`:'<div class="payment-account-empty">No QR image uploaded.</div>'}
+      ${account.qr?`<button class="secondary-button full-button" data-download-payment-qr="${escapeHTML(account.id)}">SAVE QR IMAGE</button>`:""}
+    </article>`).join("");
+}
+function renderAdminPaymentAccounts(){
+  if(!isAdmin)return;
+  if(!paymentAccounts.length){
+    $("adminPaymentAccountList").innerHTML='<div class="empty-state">No payment accounts added.</div>';
+    return;
+  }
+  $("adminPaymentAccountList").innerHTML=paymentAccounts.map(account=>`
+    <div class="payment-account-admin">
+      <div>
+        <strong>${escapeHTML(account.accountName||"")}</strong>
+        <small>${escapeHTML(account.bankName||"")} · ${escapeHTML(account.accountNumber||"")}</small>
+      </div>
+      <div class="admin-row-actions">
+        <button data-edit-payment-account="${escapeHTML(account.id)}">EDIT</button>
+        <button class="delete-button" data-delete-payment-account="${escapeHTML(account.id)}">×</button>
+      </div>
+    </div>`).join("");
+}
+function openPaymentAccountEditor(id=""){
+  $("paymentAccountForm").reset();
+  $("paymentAccountId").value=id;
+  const account=paymentAccounts.find(item=>item.id===id);
+  $("paymentAccountModalTitle").textContent=account?"Edit Payment Account":"Add Payment Account";
+  $("paymentAccountQRPreview").style.display="none";
+  $("paymentAccountQRPreview").removeAttribute("src");
+  if(account){
+    $("paymentAccountName").value=account.accountName||"";
+    $("paymentBankName").value=account.bankName||"";
+    $("paymentAccountNumber").value=account.accountNumber||"";
+    if(account.qr){
+      setImage($("paymentAccountQRPreview"),account.qr);
+    }
+  }
+  openModal("paymentAccountModal");
+}
+async function savePaymentAccount(event){
+  event.preventDefault();
+  const id=$("paymentAccountId").value||makeId();
+  const existing=paymentAccounts.find(item=>item.id===id);
+  const file=$("paymentAccountQRFile").files[0];
+  let qr=existing?.qr||"";
+
+  if(file){
+    if(!file.type.startsWith("image/")){
+      showToast("Please select an image for the QR code.");return;
+    }
+    qr=await fileToDataURL(file);
+  }
+
+  const account={
+    accountName:$("paymentAccountName").value.trim(),
+    bankName:$("paymentBankName").value.trim(),
+    accountNumber:$("paymentAccountNumber").value.trim(),
+    qr,updatedAt:Date.now()
+  };
+
+  if(!account.accountName||!account.bankName||!account.accountNumber){
+    showToast("Please complete all account details.");return;
+  }
+
+  await saveData(`${DB.paymentAccounts}/${id}`,account);
+  closeModal("paymentAccountModal");
+  await loadPaymentAccounts();
+  showToast("Payment account saved.");
+}
+async function deletePaymentAccount(id){
+  if(!confirm("Delete this payment account?"))return;
+  await removeData(`${DB.paymentAccounts}/${id}`);
+  await loadPaymentAccounts();
+  showToast("Payment account deleted.");
+}
+function downloadPaymentQR(id){
+  const account=paymentAccounts.find(item=>item.id===id);
+  if(!account?.qr){showToast("QR image not found.");return}
+  const link=document.createElement("a");
+  link.href=account.qr;
+  link.download=`${(account.accountName||"payment-qr").replace(/[^\wก-๙-]/g,"_")}-QR.png`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+/* ---------- RECEIPT HISTORY ---------- */
+function renderReceiptHistory(){
+  if(!isAdmin)return;
+  if(!receipts.length){
+    $("receiptHistoryList").innerHTML='<div class="empty-state">No receipt history yet.</div>';
+    return;
+  }
+  $("receiptHistoryList").innerHTML=receipts.map(receipt=>`
+    <div class="history-row">
+      <div>
+        <strong>${escapeHTML(receipt.number||"Receipt")}</strong><br>
+        <span style="color:var(--muted)">
+          ${escapeHTML(receipt.customerName||"Customer")} · ${escapeHTML(receipt.date||"")}
+        </span>
+      </div>
+      <strong style="color:var(--accent)">${money(receipt.total)}</strong>
+    </div>`).join("");
+}
+
+/* ---------- THEME PRESETS ---------- */
+const THEME_PRESETS={
+  light:[
+    {name:"Soft Pink",bg:"#FFF7FC",bg2:"#F7F1FF",card:"#FFFFFF",card2:"#FFF8FC",text:"#62566B",muted:"#9B8BA3",line:"#F0D5E7",accent:"#D78EBB"},
+    {name:"Lavender",bg:"#F2ECFF",bg2:"#E9E0FA",card:"#FFFFFF",card2:"#F8F4FF",text:"#554B68",muted:"#9185A1",line:"#D9C9F1",accent:"#A58BD4"},
+    {name:"Sky Blue",bg:"#EAF5FF",bg2:"#DDEEFF",card:"#FFFFFF",card2:"#F4FAFF",text:"#405A72",muted:"#8197AA",line:"#C7DFF2",accent:"#76A9D4"},
+    {name:"Mint",bg:"#EAF8F1",bg2:"#DDF2E8",card:"#FFFFFF",card2:"#F4FCF7",text:"#456357",muted:"#849D90",line:"#C6E5D4",accent:"#78B99B"},
+    {name:"Cream",bg:"#FFF3E8",bg2:"#F9E8D8",card:"#FFFFFF",card2:"#FFFAF4",text:"#6D5848",muted:"#A18C7B",line:"#EBD7C2",accent:"#D6A477"},
+    {name:"Rose",bg:"#FFF0F3",bg2:"#FBE2E9",card:"#FFFFFF",card2:"#FFF7F9",text:"#704B5A",muted:"#A58A95",line:"#F0CCD7",accent:"#D68DA5"}
+  ],
+  dark:[
+    {name:"Gothic",bg:"#100C16",bg2:"#19131F",card:"#211829",card2:"#2A2032",text:"#F5EAF5",muted:"#B8A8BD",line:"#44334E",accent:"#E7A9CE"},
+    {name:"Midnight",bg:"#101827",bg2:"#172338",card:"#1B2638",card2:"#26354A",text:"#E5EDF8",muted:"#A8B7CA",line:"#34465E",accent:"#93B9E9"},
+    {name:"Ocean",bg:"#101B20",bg2:"#17272D",card:"#1C2A31",card2:"#263940",text:"#E4F0F1",muted:"#A3B9BA",line:"#38545A",accent:"#79C1C8"},
+    {name:"Forest",bg:"#171A16",bg2:"#20271D",card:"#252D22",card2:"#303A2B",text:"#EAF0E4",muted:"#B3BEA8",line:"#46543C",accent:"#B2C78C"},
+    {name:"Wine",bg:"#20131B",bg2:"#2A1823",card:"#30202B",card2:"#3B2935",text:"#F8E8ED",muted:"#C5AAB5",line:"#644052",accent:"#E19AB5"},
+    {name:"Galaxy",bg:"#171727",bg2:"#202039",card:"#25243A",card2:"#302E49",text:"#EFEDFF",muted:"#B6B1D0",line:"#4A466F",accent:"#B5A5EF"}
+  ]
+};
+
+const THEME_DEFAULTS={
+  bg:"#100c16",bg2:"#19131f",card:"#211829",card2:"#2a2032",
+  text:"#f5eaf5",muted:"#b8a8bd",line:"#44334e",
+  accent:"#e7a9ce",accent2:"#b982b8",danger:"#e58a9b",
+  button:"#e7a9ce",button2:"#b982b8",buttonText:"#281a27",
+  star:"#e7a9ce",price:"#e7a9ce",badge:"#e7a9ce",
+  avatarBg:"#e7a9ce",avatarFont:"#281a27",
+  nav:"#211829",navActive:"#e7a9ce",
+  mainFont:"Prompt",detailFont:"Cormorant Garamond",
+  backgroundImage:"",blur:0,opacity:35
+};
+
+function normalizeHex(value,fallback){
+  const text=String(value||"").trim();
+  return /^#[0-9a-fA-F]{6}$/.test(text)?text:fallback;
+}
+function applyTheme(theme){
+  const root=document.documentElement;
+  const t={...THEME_DEFAULTS,...(theme||{})};
+
+  root.style.setProperty("--bg",t.bg);
+  root.style.setProperty("--bg2",t.bg2);
+  root.style.setProperty("--card",t.card);
+  root.style.setProperty("--card2",t.card2);
+  root.style.setProperty("--text",t.text);
+  root.style.setProperty("--muted",t.muted);
+  root.style.setProperty("--line",t.line);
+  root.style.setProperty("--accent",t.accent);
+  root.style.setProperty("--accent2",t.accent2);
+  root.style.setProperty("--danger",t.danger);
+  root.style.setProperty("--button",t.button);
+  root.style.setProperty("--button2",t.button2);
+  root.style.setProperty("--button-text",t.buttonText);
+  root.style.setProperty("--star",t.star);
+  root.style.setProperty("--avatar-bg",t.avatarBg);
+  root.style.setProperty("--avatar-font",t.avatarFont);
+  root.style.setProperty("--bg-gradient",`linear-gradient(135deg,${t.bg},${t.bg2})`);
+  root.style.setProperty("--card-gradient",`linear-gradient(135deg,${t.card},${t.card2})`);
+  root.style.setProperty("--button-gradient",`linear-gradient(135deg,${t.button},${t.button2})`);
+  root.style.setProperty("--font-main",`'${String(t.mainFont||"Prompt").replace(/['"]/g,"")}'`);
+  root.style.setProperty("--font-detail",`'${String(t.detailFont||"Cormorant Garamond").replace(/['"]/g,"")}'`);
+  root.style.setProperty("--price-color",t.price);
+  root.style.setProperty("--badge-color",t.badge);
+  root.style.setProperty("--nav-bg",t.nav);
+  root.style.setProperty("--nav-active",t.navActive);
+
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content",t.bg);
+  root.style.setProperty("--bg-image",t.backgroundImage?`url("${t.backgroundImage}")`:"none");
+  root.style.setProperty("--bg-blur",`${Number(t.blur||0)}px`);
+  root.style.setProperty("--bg-opacity",Number(t.opacity??35)/100);
+
+  $("backgroundBlur").value=Number(t.blur||0);
+  $("backgroundBlurValue").textContent=`${Number(t.blur||0)}px`;
+  $("backgroundOpacity").value=Number(t.opacity??35);
+  $("backgroundOpacityValue").textContent=`${Number(t.opacity??35)}%`;
+  fillHexThemeInputs(t);
+}
+
+/* ใช้ตัวแปรสีเสริมกับส่วนที่เกี่ยวข้อง */
+(function addThemeColorRules(){
+  const style=document.createElement("style");
+  style.textContent=`
+    .bottom-nav{background:var(--nav-bg,var(--card-gradient))}
+    .nav-item.active{color:var(--nav-active,var(--accent))}
+    .product-price{color:var(--price-color,var(--accent))}
+    .product-badge{background:var(--badge-color,var(--button-gradient))}
+  `;
+  document.head.appendChild(style);
+})();
+
+function fillHexThemeInputs(theme){
+  const t={...THEME_DEFAULTS,...(theme||{})};
+  const values={
+    hexBg:t.bg,hexBg2:t.bg2,hexCard:t.card,hexCard2:t.card2,hexBorder:t.line,
+    hexText:t.text,hexMuted:t.muted,hexMainFont:t.mainFont,hexDetailFont:t.detailFont,
+    hexButton:t.button,hexButton2:t.button2,hexButtonText:t.buttonText,
+    hexAccent:t.accent,hexAccent2:t.accent2,hexStar:t.star,hexPrice:t.price,
+    hexBadge:t.badge,hexDanger:t.danger,hexAvatarBg:t.avatarBg,
+    hexAvatarFont:t.avatarFont,hexNav:t.nav,hexNavActive:t.navActive
+  };
+  Object.entries(values).forEach(([id,value])=>{if($(id))$(id).value=value});
+}
+function readHexThemeInputs(){
+  const get=(id,fallback)=>normalizeHex($(id).value,fallback);
+  return {
+    bg:get("hexBg",THEME_DEFAULTS.bg),
+    bg2:get("hexBg2",THEME_DEFAULTS.bg2),
+    card:get("hexCard",THEME_DEFAULTS.card),
+    card2:get("hexCard2",THEME_DEFAULTS.card2),
+    line:get("hexBorder",THEME_DEFAULTS.line),
+    text:get("hexText",THEME_DEFAULTS.text),
+    muted:get("hexMuted",THEME_DEFAULTS.muted),
+    mainFont:$("hexMainFont").value.trim()||THEME_DEFAULTS.mainFont,
+    detailFont:$("hexDetailFont").value.trim()||THEME_DEFAULTS.detailFont,
+    button:get("hexButton",THEME_DEFAULTS.button),
+    button2:get("hexButton2",THEME_DEFAULTS.button2),
+    buttonText:get("hexButtonText",THEME_DEFAULTS.buttonText),
+    accent:get("hexAccent",THEME_DEFAULTS.accent),
+    accent2:get("hexAccent2",THEME_DEFAULTS.accent2),
+    star:get("hexStar",THEME_DEFAULTS.star),
+    price:get("hexPrice",THEME_DEFAULTS.price),
+    badge:get("hexBadge",THEME_DEFAULTS.badge),
+    danger:get("hexDanger",THEME_DEFAULTS.danger),
+    avatarBg:get("hexAvatarBg",THEME_DEFAULTS.avatarBg),
+    avatarFont:get("hexAvatarFont",THEME_DEFAULTS.avatarFont),
+    nav:get("hexNav",THEME_DEFAULTS.nav),
+    navActive:get("hexNavActive",THEME_DEFAULTS.navActive)
+  };
+}
+async function saveHexTheme(){
+  const theme={
+    ...THEME_DEFAULTS,
+    ...(activeTheme||{}),
+    ...readHexThemeInputs(),
+    name:"Custom"
+  };
+  await saveTheme(theme);
+  showToast("Custom theme saved.");
+}
+async function resetHexTheme(){
+  const theme={...THEME_DEFAULTS,name:"Custom"};
+  fillHexThemeInputs(theme);
+  await saveTheme(theme);
+  showToast("Custom theme reset.");
+}
+function renderThemeButtons(){
+  const createButtons=(list,type)=>list.map((theme,index)=>`
+    <button class="theme-option" data-theme-type="${type}" data-theme-index="${index}">
+      <span class="theme-swatch">
+        <i style="background:${theme.bg}"></i>
+        <i style="background:${theme.card}"></i>
+        <i style="background:${theme.accent}"></i>
+      </span>${escapeHTML(theme.name)}
+    </button>`).join("");
+  $("lightThemeGrid").innerHTML=createButtons(THEME_PRESETS.light,"light");
+  $("darkThemeGrid").innerHTML=createButtons(THEME_PRESETS.dark,"dark");
+}
+async function saveTheme(theme){
+  activeTheme={
+    ...THEME_DEFAULTS,
+    ...(activeTheme||{}),
+    ...(theme||{}),
+    blur:Number(theme?.blur??activeTheme?.blur??0),
+    opacity:Number(theme?.opacity??activeTheme?.opacity??35)
+  };
+  applyTheme(activeTheme);
+  try{
+    await saveData(DB.theme,activeTheme);
+    showToast("Theme saved.");
+  }catch(error){
+    console.error(error);showToast("Unable to save theme.");
+  }
+}
+async function loadSavedTheme(){
+  const saved=await readData(DB.theme,null);
+  activeTheme=saved?{...THEME_DEFAULTS,...saved}:{...THEME_DEFAULTS,...THEME_PRESETS.dark[0]};
+  applyTheme(activeTheme);
+}
+async function applyPresetTheme(type,index){
+  const preset=THEME_PRESETS[type]?.[Number(index)];
+  if(!preset)return;
+  const theme={
+    ...THEME_DEFAULTS,
+    ...preset,
+    backgroundImage:activeTheme?.backgroundImage||"",
+    blur:activeTheme?.blur||0,
+    opacity:activeTheme?.opacity??35
+  };
+  await saveTheme(theme);
+  fillHexThemeInputs(theme);
+  document.querySelectorAll(".theme-option").forEach(button=>{
+    button.classList.toggle(
+      "active",
+      button.dataset.themeType===type&&Number(button.dataset.themeIndex)===Number(index)
+    );
+  });
+}
+async function saveBackgroundImage(){
+  const file=$("backgroundImageInput").files[0];
+  if(!file)return;
+  try{
+    const backgroundImage=await uploadImage(file,1600);
+    await saveTheme({...activeTheme,backgroundImage});
+  }catch(error){
+    console.error(error);showToast("Unable to upload background image.");
+  }
+}
+async function updateBackgroundSettings(){
+  if(!activeTheme)return;
+  await saveTheme({
+    ...activeTheme,
+    blur:Number($("backgroundBlur").value),
+    opacity:Number($("backgroundOpacity").value)
+  });
+  $("backgroundBlurValue").textContent=`${$("backgroundBlur").value}px`;
+  $("backgroundOpacityValue").textContent=`${$("backgroundOpacity").value}%`;
+}
+async function removeBackgroundImage(){
+  await saveTheme({...activeTheme,backgroundImage:""});
+  $("backgroundImageInput").value="";
+  showToast("Background image removed.");
+}
+
+/* ---------- ADMIN LOGIN ---------- */
+function adminLogin(){
+  const password=$("adminPassword").value;
+  if(password!==ADMIN_PASSWORD){
+    $("adminLoginMessage").textContent="Incorrect password.";
+    return;
+  }
+  isAdmin=true;
+  $("adminPassword").value="";
+  $("adminLoginMessage").textContent="";
+  showPage("adminPage");
+  renderAdminProducts();
+  renderAdminContacts();
+  renderAdminPaymentAccounts();
+  renderReceiptHistory();
+  renderReviews();
+  showToast("Admin login successful.");
+}
+function adminLogout(){
+  isAdmin=false;
+  renderReviews();
+  showPage("shopPage");
+  showToast("Logged out.");
+}
+function showAdminTab(tab){
+  if(!isAdmin)return;
+  currentAdminTab=tab;
+  document.querySelectorAll(".admin-tab").forEach(button=>{
+    button.classList.toggle("active",button.dataset.adminTab===tab);
+  });
+  const panelIds={
+    products:"adminProductsPanel",
+    store:"adminStorePanel",
+    contacts:"adminContactsPanel",
+    qr:"adminQrPanel",
+    accounts:"adminPaymentAccountsPanel",
+    history:"adminHistoryPanel",
+    theme:"adminThemePanel"
+  };
+  document.querySelectorAll(".admin-panel").forEach(panel=>{
+    panel.classList.toggle("active",panel.id===panelIds[tab]);
+  });
+  if(tab==="products")renderAdminProducts();
+  if(tab==="contacts")renderAdminContacts();
+  if(tab==="accounts")renderAdminPaymentAccounts();
+  if(tab==="history")renderReceiptHistory();
+    }
+  /* ---------- PRODUCT EVENTS ---------- */
+$("productSearch").addEventListener("input",renderProducts);
+$("categoryFilter").addEventListener("change",renderProducts);
+
+$("tagFilter").addEventListener("click",event=>{
+  const button=event.target.closest("[data-tag]");
+  if(!button)return;
+  currentTag=button.dataset.tag;
+  renderTagFilter();
+  renderProducts();
+});
+
+$("productGrid").addEventListener("click",event=>{
+  const addButton=event.target.closest("[data-add-cart]");
+  if(addButton){
+    addToCart(addButton.dataset.addCart);
+    return;
+  }
+
+  if(event.target.closest(".drive-button"))return;
+
+  const imageWrap=event.target.closest("[data-product-details]");
+  if(imageWrap)openProductDetails(imageWrap.dataset.productDetails);
+});
+
+$("detailAddCartButton").addEventListener("click",()=>{
+  const id=$("detailAddCartButton").dataset.productId;
+  if(!id)return;
+  addToCart(id);
+  closeModal("productDetailsModal");
+});
+
+$("adminProductList").addEventListener("click",async event=>{
+  const editButton=event.target.closest("[data-edit-product]");
+  const deleteButton=event.target.closest("[data-delete-product]");
+  const moveButton=event.target.closest("[data-move-product]");
+  try{
+    if(editButton){
+      openProductEditor(editButton.dataset.editProduct);
+      return;
+    }
+    if(deleteButton){
+      await deleteProduct(deleteButton.dataset.deleteProduct);
+      return;
+    }
+    if(moveButton){
+      await moveProduct(
+        moveButton.dataset.moveProduct,
+        Number(moveButton.dataset.direction)
+      );
+    }
+  }catch(error){
+    console.error(error);
+    showToast("Unable to update product.");
+  }
+});
+
+$("addProductButton").addEventListener("click",()=>openProductEditor());
+
+$("productForm").addEventListener("submit",async event=>{
+  try{
+    await saveProduct(event);
+  }catch(error){
+    console.error(error);
+    showToast("Unable to save product.");
+  }
+});
+
+/* ---------- CART EVENTS ---------- */
+$("cartItems").addEventListener("click",event=>{
+  const quantityButton=event.target.closest("[data-quantity]");
+  const removeButton=event.target.closest("[data-remove-cart]");
+
+  if(quantityButton){
+    changeQuantity(
+      quantityButton.dataset.quantity,
+      Number(quantityButton.dataset.change)
+    );
+    return;
+  }
+  if(removeButton)removeCartItem(removeButton.dataset.removeCart);
+});
+
+$("checkoutButton").addEventListener("click",()=>{
+  if(!getCartItems().length){
+    showToast("Your cart is empty.");
+    return;
+  }
+  showPage("receiptPage");
+});
+
+/* ---------- RECEIPT EVENTS ---------- */
+$("generateReceiptButton").addEventListener("click",async()=>{
+  try{
+    await generateReceipt();
+  }catch(error){
+    console.error(error);
+    showToast("Unable to generate receipt.");
+  }
+});
+$("saveReceiptButton").addEventListener("click",async()=>{
+  try{
+    await saveReceiptAsImage();
+  }catch(error){
+    console.error(error);
+    showToast("Unable to save receipt.");
+  }
+});
+
+/* ---------- REVIEW EVENTS ---------- */
+$("openReviewButton").addEventListener("click",()=>{
+  $("reviewForm").reset();
+  $("reviewFilePreview").innerHTML="";
+  selectedReviewFiles=[];
+  updateRatingPicker(0);
+  openModal("reviewModal");
+});
+
+$("ratingPicker").addEventListener("click",event=>{
+  const button=event.target.closest("[data-rating]");
+  if(button)updateRatingPicker(button.dataset.rating);
+});
+
+$("reviewFiles").addEventListener("change",async()=>{
+  try{
+    await previewReviewFiles();
+  }catch(error){
+    console.error(error);
+    showToast("Unable to preview attachment.");
+  }
+});
+
+$("reviewForm").addEventListener("submit",async event=>{
+  try{
+    await submitReview(event);
+  }catch(error){
+    console.error(error);
+    showToast("Unable to submit review.");
+  }
+});
+
+/* แอดมินลบการ์ดรีวิว */
+$("reviewList").addEventListener("click",async event=>{
+  const button=event.target.closest("[data-delete-review]");
+  if(!button||!isAdmin)return;
+  try{
+    await deleteReview(button.dataset.deleteReview);
+  }catch(error){
+    console.error(error);
+    showToast("Unable to delete review.");
+  }
+});
+
+/* ---------- CONTACT EVENTS ---------- */
+$("addContactButton").addEventListener("click",()=>openContactEditor());
+
+$("contactForm").addEventListener("submit",async event=>{
+  try{
+    await saveContact(event);
+  }catch(error){
+    console.error(error);
+    showToast("Unable to save contact channel.");
+  }
+});
+
+$("adminContactList").addEventListener("click",async event=>{
+  const editButton=event.target.closest("[data-edit-contact]");
+  const deleteButton=event.target.closest("[data-delete-contact]");
+  try{
+    if(editButton){
+      openContactEditor(editButton.dataset.editContact);
+      return;
+    }
+    if(deleteButton)await deleteContact(deleteButton.dataset.deleteContact);
+  }catch(error){
+    console.error(error);
+    showToast("Unable to update contact channel.");
+  }
+});
+
+/* ---------- STORE PROFILE EVENTS ---------- */
+$("storeProfileForm").addEventListener("submit",async event=>{
+  try{
+    await saveStoreProfile(event);
+  }catch(error){
+    console.error(error);
+    showToast("Unable to update store profile.");
+  }
+});
+
+/* ---------- RECEIPT PAYMENT QR EVENTS ---------- */
+$("saveQrButton").addEventListener("click",async()=>{
+  try{
+    await savePaymentQR();
+  }catch(error){
+    console.error(error);
+    showToast("Unable to save payment QR.");
+  }
+});
+
+/* ---------- PAYMENT ACCOUNT EVENTS ---------- */
+$("addPaymentAccountButton").addEventListener("click",()=>{
+  openPaymentAccountEditor();
+});
+
+$("paymentAccountForm").addEventListener("submit",async event=>{
+  try{
+    await savePaymentAccount(event);
+  }catch(error){
+    console.error(error);
+    showToast("Unable to save payment account.");
+  }
+});
+
+$("paymentAccountQRFile").addEventListener("change",async()=>{
+  const file=$("paymentAccountQRFile").files[0];
+  if(!file){
+    $("paymentAccountQRPreview").style.display="none";
+    return;
+  }
+  if(!file.type.startsWith("image/")){
+    $("paymentAccountQRFile").value="";
+    showToast("Please select an image file.");
+    return;
+  }
+  try{
+    const preview=await fileToDataURL(file);
+    setImage($("paymentAccountQRPreview"),preview);
+  }catch(error){
+    console.error(error);
+    showToast("Unable to preview QR image.");
+  }
+});
+
+$("adminPaymentAccountList").addEventListener("click",async event=>{
+  const editButton=event.target.closest("[data-edit-payment-account]");
+  const deleteButton=event.target.closest("[data-delete-payment-account]");
+  try{
+    if(editButton){
+      openPaymentAccountEditor(editButton.dataset.editPaymentAccount);
+      return;
+    }
+    if(deleteButton){
+      await deletePaymentAccount(deleteButton.dataset.deletePaymentAccount);
+    }
+  }catch(error){
+    console.error(error);
+    showToast("Unable to update payment account.");
+  }
+});
+
+$("paymentAccountList").addEventListener("click",event=>{
+  const button=event.target.closest("[data-download-payment-qr]");
+  if(button)downloadPaymentQR(button.dataset.downloadPaymentQr);
+});
+
+/* ---------- THEME EVENTS ---------- */
+$("lightThemeGrid").addEventListener("click",async event=>{
+  const button=event.target.closest("[data-theme-index]");
+  if(!button)return;
+  try{
+    await applyPresetTheme("light",button.dataset.themeIndex);
+  }catch(error){
+    console.error(error);
+    showToast("Unable to apply theme.");
+  }
+});
+
+$("darkThemeGrid").addEventListener("click",async event=>{
+  const button=event.target.closest("[data-theme-index]");
+  if(!button)return;
+  try{
+    await applyPresetTheme("dark",button.dataset.themeIndex);
+  }catch(error){
+    console.error(error);
+    showToast("Unable to apply theme.");
+  }
+});
+
+$("saveHexThemeButton").addEventListener("click",async()=>{
+  try{
+    await saveHexTheme();
+  }catch(error){
+    console.error(error);
+    showToast("Unable to save custom theme.");
+  }
+});
+
+$("resetHexThemeButton").addEventListener("click",async()=>{
+  if(!confirm("Reset custom theme colors to the default values?"))return;
+  try{
+    await resetHexTheme();
+  }catch(error){
+    console.error(error);
+    showToast("Unable to reset theme.");
+  }
+});
+
+$("backgroundImageInput").addEventListener("change",async()=>{
+  try{
+    await saveBackgroundImage();
+  }catch(error){
+    console.error(error);
+    showToast("Unable to set background image.");
+  }
+});
+
+$("backgroundBlur").addEventListener("input",()=>{
+  $("backgroundBlurValue").textContent=`${$("backgroundBlur").value}px`;
+  document.documentElement.style.setProperty("--bg-blur",`${$("backgroundBlur").value}px`);
+});
+
+$("backgroundOpacity").addEventListener("input",()=>{
+  $("backgroundOpacityValue").textContent=`${$("backgroundOpacity").value}%`;
+  document.documentElement.style.setProperty(
+    "--bg-opacity",
+    Number($("backgroundOpacity").value)/100
+  );
+});
+
+$("backgroundBlur").addEventListener("change",updateBackgroundSettings);
+$("backgroundOpacity").addEventListener("change",updateBackgroundSettings);
+
+$("removeBackgroundButton").addEventListener("click",async()=>{
+  try{
+    await removeBackgroundImage();
+  }catch(error){
+    console.error(error);
+    showToast("Unable to remove background image.");
+  }
+});
+
+/* ---------- ADMIN EVENTS ---------- */
+$("adminLoginButton").addEventListener("click",adminLogin);
+
+$("adminPassword").addEventListener("keydown",event=>{
+  if(event.key==="Enter")adminLogin();
+});
+
+$("adminLogoutButton").addEventListener("click",adminLogout);
+
+document.querySelector(".admin-tabs").addEventListener("click",event=>{
+  const button=event.target.closest("[data-admin-tab]");
+  if(button)showAdminTab(button.dataset.adminTab);
+});
+
+/* ---------- BOTTOM NAVIGATION ---------- */
+document.querySelectorAll(".nav-item[data-page]").forEach(button=>{
+  button.addEventListener("click",()=>showPage(button.dataset.page));
+});
+
+/* ---------- MODAL CLOSE EVENTS ---------- */
+document.querySelectorAll("[data-close]").forEach(button=>{
+  button.addEventListener("click",()=>closeModal(button.dataset.close));
+});
+
+document.querySelectorAll(".modal").forEach(modal=>{
+  modal.addEventListener("click",event=>{
+    if(event.target===modal)modal.classList.remove("open");
+  });
+});
+
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape"){
+    document.querySelectorAll(".modal.open").forEach(modal=>{
+      modal.classList.remove("open");
+    });
+  }
+});
+
+/* ---------- FIREBASE CONNECTION ---------- */
+async function startApp(){
+  try{
+    showToast("Connecting to store...");
+
+    await Promise.all([
+      loadStore(),
+      loadProducts(),
+      loadContacts(),
+      loadReceipts(),
+      loadPaymentQR(),
+      loadPaymentAccounts(),
+      loadReviews(),
+      loadSavedTheme()
+    ]);
+
+    renderThemeButtons();
+    renderProducts();
+    renderCart();
+    renderContactPage();
+    renderPaymentAccounts();
+
+    $("receiptQrWrap").style.display=paymentQR?"block":"none";
+    showPage("shopPage");
+
+    console.log("JAORICHE STUDIO16 is ready.");
+    showToast("Welcome to JAORICHE STUDIO16.");
+  }catch(error){
+    console.error("Firebase loading error:",error);
+    showToast("Unable to connect. Please check Firebase settings and database rules.");
+  }
+}
+
+/* ---------- START APPLICATION ---------- */
+document.addEventListener("DOMContentLoaded",startApp);
+</script>
+</body>
+</html>
